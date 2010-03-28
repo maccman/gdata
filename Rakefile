@@ -13,7 +13,6 @@
 # limitations under the License.
 
 require 'rubygems'
-require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
 
@@ -23,42 +22,19 @@ task :test do
   ruby "test/ts_gdata.rb"
 end
 
-task :prepdoc do
-  all_doc_files = FileList.new('doc/**/*')
-  all_doc_files.each do |file|
-    system "hg add #{file}"
-  end
-end
-
 task :doc do
   system "rdoc -U --title 'gdata module documentation' -m README README lib/"
 end
 
-spec = Gem::Specification.new do |s|
-  s.platform = Gem::Platform::RUBY
-  s.author = 'Jeff Fisher'
-  s.email = 'jfisher@youtube.com'
-  s.homepage = 'http://code.google.com/p/gdata-ruby-util'
-  s.summary = "Google Data APIs Ruby Utility Library"
-  s.rubyforge_project = 'gdata'
-  s.name = 'gdata'
-  s.version = '1.1.1'
-  s.requirements << 'none'
-  s.require_path = 'lib'
-  s.test_files = FileList['test/ts_gdata.rb']
-  s.has_rdoc = true
-  s.extra_rdoc_files = ['README', 'LICENSE']
-  s.rdoc_options << '--main' << 'README'
-  s.files = FileList.new('[A-Z]*', 'lib/**/*.rb', 'test/**/*') do |fl|
-    fl.exclude(/test_config\.yml$/)
+begin
+  require "jeweler"
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "gdata"
+    gemspec.summary = "Google GData API"
+    gemspec.email = "info@eribium.org"
+    gemspec.homepage = "http://github.com/maccman/gdata"
+    gemspec.authors = ["Alex MacCaw"]
   end
-  s.description = <<EOF
-This gem provides a set of wrappers designed to make it easy to work with 
-the Google Data APIs.
-EOF
-end
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_zip = true
-  pkg.need_tar = true
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install jeweler"
 end
