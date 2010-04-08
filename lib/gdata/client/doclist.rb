@@ -20,7 +20,8 @@ module GData
       
       def initialize(options = {})
         options[:clientlogin_service] ||= 'writely'
-        options[:authsub_scope] ||= 'http://docs.google.com/feeds/'
+        options[:authsub_scope]       ||= 'http://docs.google.com/feeds/'
+        options[:version]             = '3.0'
         super(options)
       end
     end
